@@ -1,0 +1,20 @@
+# ---------------------------------------
+# Chat With My PDF - Project Config
+# ---------------------------------------
+
+# List of all PDF files you want to parse & ingest
+pdfs:
+  - pdfs/ATOMS-AND-MOLECULES-chapter-3.pdf
+  # - pdfs/another-textbook.pdf
+  # - pdfs/physics-notes.pdf
+
+# Embedding model to use for chunk embeddings
+embedding_model: all-MiniLM-L6-v2
+
+# Vector database for semantic search
+vector_db: faiss
+
+# Optional: Later, you can add things like
+# llm_model: llama3-8b
+# chunk_size: 500
+# overlap: 50
