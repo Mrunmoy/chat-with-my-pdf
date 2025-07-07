@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+.vscode/
+
+# Virtual environments
+venv/
+ENV/
+env/
+
+# Jupyter notebooks (optional)
+.ipynb_checkpoints/
+
+# VSCode settings (optional)
+.vscode/
+
+# MacOS cruft
+.DS_Store
+
+# Linux file cruft
+Thumbs.db
+
+# PDFs you don't want in the repo
+pdfs/*.pdf
+
+# Data outputs or big index files
+parsed_chunks/
+*.json
+*.db
+*.faiss
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
