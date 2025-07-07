@@ -38,3 +38,8 @@ parsed_chunks/
 
 # Temporary files
 *.tmp
+
+# Chunk and vector store files
+parsed_chunks.json
+chunks_metadata.json
+faiss.index
