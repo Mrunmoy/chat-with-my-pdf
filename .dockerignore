@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+pdfs/
+faiss.index
+chunks_metadata.json
+venv/
+.idea/

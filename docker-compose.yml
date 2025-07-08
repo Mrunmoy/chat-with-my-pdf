@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  ollama_server:
+    image: ollama/ollama:latest
+    entrypoint: ["ollama"]
+    command: ["serve"]
+    ports:
+      - 11434:11434
+    volumes:
+      - ollama_data:/root/.ollama
+
+  chatwithpdf:
+    build: .
+    ports:
+      - 8501:8501
+    volumes:
+      - ./pdfs:/app/pdfs
+      - ./faiss.index:/app/faiss.index
+      - ./chunks_metadata.json:/app/chunks_metadata.json
+    environment:
+      - OLLAMA_HOST=http://ollama_server:11434
+    depends_on:
+      - ollama_server
+
+volumes:
+  ollama_data:

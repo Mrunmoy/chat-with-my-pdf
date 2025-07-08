@@ -7,7 +7,11 @@ import os
 
 # === Load embedding model + Ollama once ===
 embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
-ollama_client = Client(host="http://localhost:11434")
+
+ollama_host = os.getenv("OLLAMA_HOST", "http://ollama:11434")
+print("Using Ollama host:", ollama_host)
+
+ollama_client = Client(host=ollama_host)
 
 # === Streamlit page ===
 st.set_page_config(page_title="Chat with My PDFs", page_icon="📚")

@@ -138,6 +138,67 @@ It will open [http://localhost:8501](http://localhost:8501) — your local chat 
 
 ---
 
+## Running it with Docker Compose 🐳 + `start.sh`
+
+This project includes a simple helper script **`start.sh`** that wraps up the whole multi-step process:
+- ✅ Builds your Docker images
+- ✅ Starts the Ollama server in the background
+- ✅ Waits until the Ollama API is actually ready (not just “started” — but responding to requests!)
+- ✅ Pulls your chosen local model (e.g., `mistral`) exactly once
+- ✅ Spins up your Streamlit app
+
+**Why the wait?**  
+Ollama’s `pull` needs the **`ollama serve`** HTTP API to be running.  
+Docker Compose’s `depends_on` only checks if the container is *running* — not if its server is actually ready to accept connections.  
+That’s why the `start.sh` includes a small `until ... do ... done` loop to poll until `ollama list` works reliably.
+
+---
+
+## ✅ Example: `start.sh`
+
+```bash
+#!/bin/bash
+
+set -e
+
+echo "Building images *if needed* and starting Ollama server..."
+docker-compose up --build -d ollama_server
+
+echo "⏳ Waiting for Ollama to pass healthcheck..."
+
+while ! curl -s http://localhost:11434 | grep -q 'Ollama'; do
+  echo "🔄 Ollama not ready yet — waiting..."
+  sleep 3
+done
+
+echo "✅ Ollama is healthy!"
+
+echo "Pulling the model..."
+docker-compose exec ollama_server ollama pull mistral
+
+echo "Bringing up Streamlit app..."
+docker-compose up -d chatwithpdf
+
+echo "All done!"
+
+```
+
+### 🟢 How to use it
+
+Make it executable:
+```bash
+chmod +x start.sh
+```
+
+Run it:
+```bash
+./start.sh
+
+```
+
+Open http://<your-ip>:8501 in your browser.
+
+
 ## Built with
 
 - [PyMuPDF](https://pymupdf.readthedocs.io/) — PDF parsing
@@ -149,6 +210,7 @@ It will open [http://localhost:8501](http://localhost:8501) — your local chat 
 - [Streamlit](https://streamlit.io/) — Web UI
 
 ---
+
 
 ## ⚖️ License
 MIT — for personal learning and research.  
